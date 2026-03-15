@@ -1,0 +1,40 @@
+{
+  "2026-03-15": {
+    "date": "2026-03-15",
+    "water": 3,
+    "coreHabits": [
+      {
+        "id": "gym",
+        "label": "Go to the Gym",
+        "done": false
+      },
+      {
+        "id": "hanging",
+        "label": "Hanging (2 mins) - Height",
+        "done": false
+      },
+      {
+        "id": "cobra",
+        "label": "Cobra Stretch - Height",
+        "done": false
+      },
+      {
+        "id": "posture",
+        "label": "Maintain Good Posture",
+        "done": false
+      },
+      {
+        "id": "sleep",
+        "label": "Sleep 8 Hours",
+        "done": false
+      },
+      {
+        "id": "learn",
+        "label": "Learn Something New",
+        "done": false
+      }
+    ],
+    "customTasks": [],
+    "learning": ""
+  }
+}
