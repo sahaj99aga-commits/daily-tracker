@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Daily Tracker – A premium glassmorphism daily habit and water tracker to optimize your day.">
+  <title>Daily Tracker | Your Premium Habit Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Animated background blobs -->
+  <div class="bg-animation">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <div class="blob blob-4"></div>
+  </div>
+  <!-- Confetti canvas -->
+  <canvas id="confetti-canvas"></canvas>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="header-left">
+        <h1 class="app-title">
+          <span class="title-icon">✦</span>
+          Daily Tracker
+        </h1>
+        <p class="app-subtitle" id="current-date"></p>
+      </div>
+      <div class="header-right">
+        <div class="streak-badge" id="streak-badge">
+          <span class="streak-icon">🔥</span>
+          <span class="streak-count" id="streak-count">0</span>
+          <span class="streak-label">day streak</span>
+        </div>
+      </div>
+    </header>
+    <!-- Tab Navigation -->
+    <nav class="tab-nav" id="tab-nav">
+      <button class="tab-btn active" data-tab="today" id="tab-today">
+        <span class="tab-icon">📅</span>
+        Today
+      </button>
+      <button class="tab-btn" data-tab="history" id="tab-history">
+        <span class="tab-icon">📜</span>
+        History
+      </button>
+    </nav>
+    <!-- TODAY TAB -->
+    <main class="dashboard" id="today-view">
+      <!-- Progress Ring Section -->
+      <section class="glass-card progress-section" id="progress-section">
+        <div class="progress-ring-container">
+          <svg class="progress-ring" viewBox="0 0 200 200">
+            <defs>
+              <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#6366f1"/>
+                <stop offset="50%" style="stop-color:#a855f7"/>
+                <stop offset="100%" style="stop-color:#ec4899"/>
+              </linearGradient>
+              <filter id="glow">
+                <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                <feMerge>
+                  <feMergeNode in="coloredBlur"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
+            </defs>
+            <circle class="progress-ring-bg" cx="100" cy="100" r="85" />
+            <circle class="progress-ring-fill" cx="100" cy="100" r="85"
+              id="progress-ring-fill"
+              filter="url(#glow)" />
+          </svg>
+          <div class="progress-text">
+            <span class="progress-percentage" id="progress-percentage">0</span>
+            <span class="progress-percent-sign">%</span>
+            <span class="progress-label">completed</span>
+          </div>
+        </div>
+        <div class="progress-stats">
+          <div class="stat-item">
+            <span class="stat-value" id="tasks-done">0</span>
+            <span class="stat-label">Done</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-value" id="tasks-total">0</span>
+            <span class="stat-label">Total</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-value" id="tasks-remaining">0</span>
+            <span class="stat-label">Left</span>
+          </div>
+        </div>
+      </section>
+      <!-- Water Tracker -->
+      <section class="glass-card water-section" id="water-section">
+        <div class="section-header">
+          <h2 class="section-title">
+            <span class="section-icon">💧</span>
+            Water Tracker
+          </h2>
+          <span class="water-count" id="water-count">0 / 5 L</span>
+        </div>
+        <div class="water-drops" id="water-drops">
+          <button class="water-drop" data-index="1" id="water-drop-1" aria-label="Toggle water liter 1">
+            <svg viewBox="0 0 60 80" class="drop-svg">
+              <defs>
+                <linearGradient id="dropGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#60a5fa"/>
+                  <stop offset="100%" style="stop-color:#3b82f6"/>
+                </linearGradient>
+              </defs>
+              <path d="M30 5 Q30 5 50 40 Q55 50 50 60 Q45 72 30 75 Q15 72 10 60 Q5 50 10 40 Q30 5 30 5Z" class="drop-path"/>
+              <ellipse cx="22" cy="38" rx="5" ry="8" class="drop-shine" />
+            </svg>
+            <span class="drop-label">1L</span>
+          </button>
+          <button class="water-drop" data-index="2" id="water-drop-2" aria-label="Toggle water liter 2">
+            <svg viewBox="0 0 60 80" class="drop-svg">
+              <path d="M30 5 Q30 5 50 40 Q55 50 50 60 Q45 72 30 75 Q15 72 10 60 Q5 50 10 40 Q30 5 30 5Z" class="drop-path"/>
+              <ellipse cx="22" cy="38" rx="5" ry="8" class="drop-shine" />
+            </svg>
+            <span class="drop-label">2L</span>
+          </button>
+          <button class="water-drop" data-index="3" id="water-drop-3" aria-label="Toggle water liter 3">
+            <svg viewBox="0 0 60 80" class="drop-svg">
+              <path d="M30 5 Q30 5 50 40 Q55 50 50 60 Q45 72 10 60 Q5 50 10 40 Q30 5 30 5Z" class="drop-path"/>
+              <ellipse cx="22" cy="38" rx="5" ry="8" class="drop-shine" />
+            </svg>
+            <span class="drop-label">3L</span>
+          </button>
+          <button class="water-drop" data-index="4" id="water-drop-4" aria-label="Toggle water liter 4">
+            <svg viewBox="0 0 60 80" class="drop-svg">
+              <path d="M30 5 Q30 5 50 40 Q55 50 50 60 Q45 72 30 75 Q15 72 10 60 Q5 50 10 40 Q30 5 30 5Z" class="drop-path"/>
+              <ellipse cx="22" cy="38" rx="5" ry="8" class="drop-shine" />
+            </svg>
+            <span class="drop-label">4L</span>
+          </button>
+          <button class="water-drop" data-index="5" id="water-drop-5" aria-label="Toggle water liter 5">
+            <svg viewBox="0 0 60 80" class="drop-svg">
+              <path d="M30 5 Q30 5 50 40 Q55 50 50 60 Q45 72 30 75 Q15 72 10 60 Q5 50 10 40 Q30 5 30 5Z" class="drop-path"/>
+              <ellipse cx="22" cy="38" rx="5" ry="8" class="drop-shine" />
+            </svg>
+            <span class="drop-label">5L</span>
+          </button>
+        </div>
+        <div class="water-progress-bar">
+          <div class="water-fill" id="water-fill"></div>
+        </div>
+      </section>
+      <!-- Core Habits -->
+      <section class="glass-card habits-section" id="habits-section">
+        <div class="section-header">
+          <h2 class="section-title">
+            <span class="section-icon">⚡</span>
+            Core Habits
+          </h2>
+          <span class="habits-count" id="habits-count">0 / 6</span>
+        </div>
+        <ul class="habits-list" id="habits-list">
+          <!-- Populated by JS -->
+        </ul>
+      </section>
+      <!-- Learning Log -->
+      <section class="glass-card learning-section" id="learning-section">
+        <div class="section-header">
+          <h2 class="section-title">
+            <span class="section-icon">🧠</span>
+            What Did You Learn Today?
+          </h2>
+          <span class="learning-status" id="learning-status"></span>
+        </div>
+        <div class="learning-input-wrapper">
+          <textarea id="learning-input" class="learning-input"
+            placeholder="Write what you learned today..."
+            maxlength="500" rows="3"></textarea>
+          <div class="learning-footer">
+            <span class="char-count" id="learning-char-count">0 / 500</span>
+            <button class="save-btn" id="learning-save-btn">Save</button>
+          </div>
+        </div>
+      </section>
+      <!-- Custom Tasks -->
+      <section class="glass-card tasks-section" id="tasks-section">
+        <div class="section-header">
+          <h2 class="section-title">
+            <span class="section-icon">📝</span>
+            My Tasks
+          </h2>
+          <span class="tasks-count" id="custom-tasks-count">0</span>
+        </div>
+        <form class="add-task-form" id="add-task-form">
+          <input type="text" id="task-input" placeholder="Add a new task..." class="task-input" maxlength="100" autocomplete="off">
+          <button type="submit" class="add-task-btn">+</button>
+        </form>
+        <div class="empty-tasks" id="empty-tasks">
+          <span class="empty-icon">🎯</span>
+          <p>No custom tasks yet. Add one above!</p>
+        </div>
+        <ul class="tasks-list" id="tasks-list"></ul>
+      </section>
+    </main>
+    <!-- HISTORY TAB -->
+    <section class="dashboard hidden" id="history-view">
+      <div class="history-nav glass-card">
+        <button class="history-nav-btn" id="history-prev">← Older</button>
+        <div class="history-date-info">
+          <span class="history-date-label" id="history-date-label">Yesterday</span>
+          <span class="history-date-full" id="history-date-full"></span>
+        </div>
+        <button class="history-nav-btn disabled" id="history-next">Newer →</button>
+      </div>
+      <div id="history-content"></div>
+      <div class="empty-history hidden" id="history-empty">
+        <span class="empty-icon">📭</span>
+        <p>No data recorded for this day.</p>
+      </div>
+    </section>
+    <!-- Footer -->
+    <footer class="app-footer">
+      <p>Built with ✦ for a better day</p>
+    </footer>
+  </div>
+  <!-- Completion Overlay -->
+  <div class="completion-overlay" id="completion-overlay">
+    <div class="completion-modal glass-card">
+      <div class="completion-emoji">🎉</div>
+      <h2>Day Complete!</h2>
+      <p>You've crushed every single task today. You're unstoppable!</p>
+      <button class="completion-close" id="completion-close">Keep Going</button>
+    </div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
